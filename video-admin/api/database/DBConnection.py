@@ -7,7 +7,7 @@ from sqlalchemy.engine.base import Engine
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm.session import Session as ORMSession
 import Environment as env
-from config.database import config
+from ..config.database import config
 
 ## Database connection string
 connect_url = config[env.DB_DRIVER]['conn_string']
