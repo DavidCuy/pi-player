@@ -150,6 +150,6 @@ dev/
 keys/*
 !keys/.gitkeep
 
-api/storage/local/*
-!api/storage/local/.gitkeep
-api/app.db
+portal/storage/local/*
+!portal/storage/local/.gitkeep
+portal/app.db
