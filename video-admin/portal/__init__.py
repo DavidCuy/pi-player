@@ -31,9 +31,13 @@ def create_app():
     except OSError:
         pass
 
+    from .routes import video_router
     from .routes import playlist_router
+    from .routes import schedule_router
 
-    app.register_blueprint(playlist_router, url_prefix='/playlists')
+    app.register_blueprint(video_router, url_prefix='/video')
+    app.register_blueprint(playlist_router, url_prefix='/playlist')
+    app.register_blueprint(schedule_router, url_prefix='/schedule')
     
 
     @app.errorhandler(APIException)
