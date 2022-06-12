@@ -2,10 +2,10 @@ import json
 from typing import cast
 from flask import request
 import logging
-from api.app.Data.Enum.http_status_code import HTTPStatusCode
+from portal.app.Data.Enum.http_status_code import HTTPStatusCode
 
-from api.app.Exceptions.APIException import APIException
-from api.app.Validators.RequestValidator import RequestValidator
+from portal.app.Exceptions.APIException import APIException
+from portal.app.Validators.RequestValidator import RequestValidator
 
 from ...Data.Interfaces.PaginationResult import PaginationResult
 from ..Data.BaseModel import BaseModel

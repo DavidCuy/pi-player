@@ -1,6 +1,6 @@
 from flask import Blueprint
-from api.app.Controllers.ExampleController import index, find, store, update, delete
-from api.app.Services.ExampleService import ExampleService
+from portal.app.Controllers.ExampleController import index, find, store, update, delete
+from portal.app.Services.ExampleService import ExampleService
 
 example = Blueprint('example', __name__)
 example_service = ExampleService()

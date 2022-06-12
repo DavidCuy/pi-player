@@ -1,6 +1,6 @@
 from flask import Blueprint
-from api.app.Controllers.DumpController import index, find, store, update, delete
-from api.app.Services.DumpService import DumpService
+from portal.app.Controllers.DumpController import index, find, store, update, delete
+from portal.app.Services.DumpService import DumpService
 
 dump = Blueprint('dump', __name__)
 example_service = DumpService()

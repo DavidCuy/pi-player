@@ -1,4 +1,4 @@
-from api.utils.http_utils import build_response
+from portal.utils.http_utils import build_response
 import json
 
 class APIException(Exception):

@@ -4,7 +4,7 @@ FROM python:3.7-slim
 # set the working directory in the container
 WORKDIR /code
 
-ENV FLASK_APP api
+ENV FLASK_APP portal
 ENV FLASK_RUN_HOST 0.0.0.0
 ENV FLASK_ENV development
 

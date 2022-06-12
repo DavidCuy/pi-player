@@ -1,7 +1,7 @@
 from typing import List, Type
 from flask import request
 
-from api.app.Core.Data.BaseModel import BaseModel
+from portal.app.Core.Data.BaseModel import BaseModel
 from .ResourceReference import ResourceReference
 
 class PaginationResult:

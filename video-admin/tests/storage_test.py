@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from api.utils.storage import Storage
+from portal.utils.storage import Storage
 
 from dotenv import load_dotenv
 load_dotenv('test.env')

@@ -1,5 +1,5 @@
 from typing import Dict, Type
-from api.app.Core.Data.BaseModel import BaseModel
+from portal.app.Core.Data.BaseModel import BaseModel
 import Environment as env
 
 class ResourceReference:

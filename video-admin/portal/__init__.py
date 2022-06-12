@@ -5,9 +5,9 @@ from flask_migrate import Migrate, migrate
 from flask_cors import CORS
 from flask.json import jsonify
 
-import api.database.DBConnection as DBConn
-from api.app.Data.Models.models import *
-from api.app.Exceptions.APIException import APIException
+import portal.database.DBConnection as DBConn
+from portal.app.Data.Models.models import *
+from portal.app.Exceptions.APIException import APIException
 
 
 def create_app():

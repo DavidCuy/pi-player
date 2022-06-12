@@ -3,8 +3,8 @@ from typing import cast
 import requests
 from flask import request
 
-from api.app.Exceptions.APIException import APIException
-from api.app.Data.Enum.http_status_code import HTTPStatusCode
+from portal.app.Exceptions.APIException import APIException
+from portal.app.Data.Enum.http_status_code import HTTPStatusCode
 
 
 def auth_midleware(func):
