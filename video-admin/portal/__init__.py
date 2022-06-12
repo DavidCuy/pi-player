@@ -1,9 +1,11 @@
+from crypt import methods
 import os
 
-from flask import Flask
+from flask import Flask, redirect
 from flask_migrate import Migrate, migrate
 from flask_cors import CORS
 from flask.json import jsonify
+from requests import Response
 
 import portal.database.DBConnection as DBConn
 from portal.app.Data.Models import *
@@ -44,6 +46,10 @@ def create_app():
     def handle_invalid_usage(error: APIException):
         response = jsonify(error.to_dict())
         response.status_code = error.status_code
-        return response
+        return
+    
+    @app.route('/', methods=['GET'])
+    def index() -> Response:
+        return redirect('/schedule')
 
     return app
