@@ -2,24 +2,24 @@ from typing import Any, Dict, List
 from sqlalchemy import Column, Integer, String
 from ...Core.Data.BaseModel import BaseModel
 
-class Dump(BaseModel):
-    """ Table Dumps Database model
+class Playlist(BaseModel):
+    """ Table Playlists Database model
 
     Args:
         BaseModel (ORMClass): Parent class
 
     Returns:
-        Dump: Instance of model
+        Playlist: Instance of model
     """
-    __tablename__ = 'Dumps'
-    id = Column("IdDump", Integer, primary_key=True)
+    __tablename__ = 'Playlists'
+    id = Column("IdPlaylist", Integer, primary_key=True)
     Description = Column("Description", String, nullable=False)
     
-    model_path_name = "dump"
+    model_path_name = "playlist"
     
     def property_map(self) -> Dict:
         return {
-            "id": "IdDump"
+            "id": "IdPlaylist"
         }
     
     def display_members(self) -> List[str]:

@@ -6,7 +6,7 @@ from flask_cors import CORS
 from flask.json import jsonify
 
 import portal.database.DBConnection as DBConn
-from portal.app.Data.Models.models import *
+from portal.app.Data.Models import *
 from portal.app.Exceptions.APIException import APIException
 
 
@@ -31,11 +31,9 @@ def create_app():
     except OSError:
         pass
 
-    from .routes.ExampleRouter import example
-    from .routes.DumpRouter import dump
+    from .routes import playlist_router
 
-    app.register_blueprint(example, url_prefix='/dev/api/v1/example')
-    app.register_blueprint(dump, url_prefix='/dev/api/v1/dump')
+    app.register_blueprint(playlist_router, url_prefix='/playlists')
     
 
     @app.errorhandler(APIException)
