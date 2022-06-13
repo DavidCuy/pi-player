@@ -75,7 +75,7 @@ def index(service: BaseService):
         if accepts.lower() == 'application/json':
             return build_response(status_code, body, jsonEncoder=encoder, encoder_extras=relationship_retrieve)
     
-    return render_template(f'views/{service.model.model_path_name}/index.html')
+    return render_template(f'views/{service.model.model_path_name}/index.html', **body)
 
 def find(service: BaseService, id: int):
     session = get_session()
