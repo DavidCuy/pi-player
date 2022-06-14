@@ -17,7 +17,7 @@ class Schedule(BaseModel):
     id_playlist = Column("id_playlist", Integer, ForeignKey("playlists.id"), nullable=False)
     name = Column("name", String, nullable=False)
     start = Column("start", Time, nullable=False)
-    end = Column("description", Time, nullable=False)
+    end = Column("end", Time, nullable=False)
     date = Column("date", Date)
     days = Column("days", String)
     
