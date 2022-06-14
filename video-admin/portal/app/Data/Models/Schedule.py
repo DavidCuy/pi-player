@@ -1,3 +1,4 @@
+from email.policy import default
 from typing import Any, Dict, List
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Time, Date, ForeignKey
@@ -16,6 +17,7 @@ class Schedule(BaseModel):
     id = Column("id", Integer, primary_key=True)
     id_playlist = Column("id_playlist", Integer, ForeignKey("playlists.id"), nullable=False)
     name = Column("name", String, nullable=False)
+    color = Column("color", String, default="#CCCCCC")
     start = Column("start", Time, nullable=False)
     end = Column("end", Time, nullable=False)
     date = Column("date", Date)
@@ -25,7 +27,7 @@ class Schedule(BaseModel):
     
     filter_columns = ["id_playlist"]
     relationship_names = ["playlist"]
-    search_columns = ["name", "days"]
+    search_columns = ["name", "days", "color"]
     
     model_path_name = "schedule"
     
@@ -34,7 +36,7 @@ class Schedule(BaseModel):
     
     def display_members(self) -> List[str]:
         return [
-            "id", "id_playlist", "name", "start", "end", "date", "days"
+            "id", "id_playlist", "name", "color", "start", "end", "date", "days"
         ]
     
     @classmethod
