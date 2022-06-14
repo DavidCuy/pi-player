@@ -14,6 +14,7 @@ class Video(BaseModel):
     __tablename__ = 'videos'
     id = Column("id", Integer, primary_key=True)
     video_file = Column("video_file", String, nullable=False)
+    thumb_file = Column("thumb_file", String)
     description = Column("description", String)
     size = Column("size", Integer)
     format = Column("format", String)
@@ -25,7 +26,7 @@ class Video(BaseModel):
     
     def display_members(self) -> List[str]:
         return [
-            "id", "video_file", "description", "size", "format"
+            "id", "video_file", "thumb_file", "description", "size", "format"
         ]
     
     @classmethod
