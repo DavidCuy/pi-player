@@ -1,10 +1,144 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block styles %}
+<link href="{{url_for('static', filename = 'css/views/schedule.css')}}?v=3.0.0" rel="stylesheet" /> {% endblock styles %} {% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <button type="button" class="btn btn-info float-right" style="float: right" data-bs-toggle="modal" data-bs-target="#scheduleModal">Nuevo horario</button>
+        </div>
+    </div>
+    <div class="row">
+        {% if Data | length > 0 %}
+        {% for schedule in Data %}
+        <div class="col-lg-4 col-md-3 col-sm-6">
+            <div class="card card-frame">
+                <div class="card-header colored-header"></div>
+                <div class="card-body">
+                    <h3>{{ schedule.name }}</h3>
 
-{% block body %}
-    <h1>It works schedule!</h1>
-    <pre> {{ Data }} </pre>
-    <pre> {{ Links }} </pre>
-    <pre> {{ Offset }} </pre>
-    <pre> {{ Limit }} </pre>
-    <pre> {{ Total }} </pre>
-{% endblock body %}
+                    <div class="row mt-3">
+                        <div class="col-md-6 col-sm-12">
+                            <span>{{ schedule.start }}</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <span>{{ schedule.end }}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer d-flex">
+                    <a href="#">
+                        <span class="badge bg-gradient-secondary">{{ schedule.playlist }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}  
+        {% else %}
+        <div class="col-12 mt-5">
+            <h2 class="text-center">No hay horarios configurados. Agregue uno para comenzar</h2>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-normal" id="scheduleModalLabel">Horario</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="schedule-color" class="form-control-label">Color</label>
+                    <input class="form-control" type="color" value="#CCCCCC" id="schedule-color">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group input-group-static my-3">
+                    <label>Inicio</label>
+                    <input type="time" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group input-group-static my-3">
+                    <label>Fin</label>
+                    <input type="time" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="repeatCheck">
+            <label class="form-check-label" for="repeatCheck">Repetir</label>
+        </div>
+
+        <div id="oneDayContainer" class="row">
+            <div class="input-group input-group-static my-3">
+                <label>Date</label>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+
+        <div id="repeatDaysContainer" class="row" style="display:none">
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" name="repeatCheckbos" id="mondayCheck" checked="">
+                    <label class="custom-control-label" for="mondayCheck">Lunes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" name="repeatCheckbos" id="tuesdayCheck" checked="">
+                    <label class="custom-control-label" for="tuesdayCheck">Martes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" name="repeatCheckbos" id="wednesdayCheck" checked="">
+                    <label class="custom-control-label" for="wednesdayCheck">Miércoles</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" name="repeatCheckbos" id="thursdayCheck" checked="">
+                    <label class="custom-control-label" for="thursdayCheck">Jueves</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" name="repeatCheckbos" id="fridayCheck" checked="">
+                    <label class="custom-control-label" for="fridayCheck">Viernes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" name="repeatCheckbos" id="saturdayCheck" checked="">
+                    <label class="custom-control-label" for="saturdayCheck">Sabado</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" name="repeatCheckbos" id="sundayCheck" checked="">
+                    <label class="custom-control-label" for="sundayCheck">Domingo</label>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn bg-gradient-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<pre> {{ Data }} </pre>
+<pre> {{ Links }} </pre>
+<pre> {{ Offset }} </pre>
+<pre> {{ Limit }} </pre>
+<pre> {{ Total }} </pre> {% endblock body %}
