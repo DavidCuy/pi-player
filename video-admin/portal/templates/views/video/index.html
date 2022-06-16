@@ -5,7 +5,7 @@
         <div class="col-10">
             <div class="input-group input-group-outline">
                 <label class="form-label">Buscar...</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" placeholder=".">
             </div>
         </div>
         <div class="col-2">
@@ -42,7 +42,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <form action="/file-upload" class="form-control border dropzone" id="dropzone">
+                <form action="/video/upload" class="form-control border dropzone" id="dropzone" accept="video/*">
                     <div class="fallback">
                         <input name="file" type="file" multiple />
                     </div>

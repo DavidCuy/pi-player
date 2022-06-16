@@ -16,6 +16,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_pyfile(os.path.abspath('./Environment.py'))
     app.config['SQLALCHEMY_DATABASE_URI'] = DBConn.connect_url
+    app.config['MAX_CONTENT_LENGTH'] = 50 * 1000 * 1000
     migrate = Migrate(app, DBConn.db, render_as_batch=True)
 
     @migrate.configure

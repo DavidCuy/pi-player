@@ -147,3 +147,5 @@ dev/
 *.env
 *.vscode
 keys/*
+
+static/*
