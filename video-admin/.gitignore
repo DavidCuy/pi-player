@@ -153,3 +153,5 @@ keys/*
 portal/storage/local/*
 !portal/storage/local/.gitkeep
 portal/app.db
+portal/static/*/*.mp4
+portal/static/*/*.png

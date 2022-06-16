@@ -21,8 +21,6 @@ def __get_temp_file_dir(filename: str) -> str:
     return os.path.abspath(os.path.join(tempfile.gettempdir(), filename))
 
 def upload(service: VideoService):
-    session = get_session()
-    
     if 'file' not in request.files:
         return build_response(HTTPStatusCode.UNPROCESABLE_ENTITY.value, {"error": True})
     file = cast(FileStorage, request.files['file'])
@@ -42,7 +40,30 @@ def upload(service: VideoService):
     shutil.copy(thumbnail_file, output_videothumb)
     shutil.copy(temp_filepath, output_videopath)
     
-    return build_response(HTTPStatusCode.OK.value, {"error": False})
+    session = get_session()
+    try:
+        input_params = {
+            "video_file": '/'.join(output_videopath.split('/')[4:]),
+            "thumb_file": '/'.join(output_videothumb.split('/')[4:]),
+            "size": size,
+            "format": file.content_type
+        }
+        body = service.insert_register(session, input_params)
+        response = json.dumps(body, cls=AlchemyEncoder)
+        status_code = HTTPStatusCode.OK.value
+    except APIException as e:
+        logging.exception("APIException occurred")
+        response = json.dumps(e.to_dict())
+        status_code = e.status_code
+    except Exception:
+        logging.exception("No se pudo realizar la consulta")
+        body = dict(message="No se pudo realizar la consulta")
+        response = json.dumps(body)
+        status_code=HTTPStatusCode.UNPROCESABLE_ENTITY.value
+    finally:
+        session.close()
+    
+    return build_response(status_code, response)
     
     """
     try:
