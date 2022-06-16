@@ -15,7 +15,6 @@ class Video(BaseModel):
     id = Column("id", Integer, primary_key=True)
     video_file = Column("video_file", String, nullable=False)
     thumb_file = Column("thumb_file", String)
-    description = Column("description", String)
     size = Column("size", Integer)
     format = Column("format", String)
     

@@ -1,10 +1,61 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block styles %}
+<link href="{{url_for('static', filename = 'css/dropzone.min.css')}}?v=3.0.0" rel="stylesheet" /> {% endblock styles %} {% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-10">
+            <div class="input-group input-group-outline">
+                <label class="form-label">Buscar...</label>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-icon btn-2 btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
+                <span class="btn-inner--icon"><i class="material-icons">file_upload</i></span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        {% if Data | length > 0 %} {% for video in Data %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card card-background card-background-mask-dark align-items-start mt-4">
+                <div class="full-background cursor-pointer" style="background-image: url('https://images.unsplash.com/photo-1604213410393-89f141bb96b8?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTA5fHxuYXR1cmV8ZW58MHx8MHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60')"></div>
+                <div class="card-body">
+                    <h5 class="text-white mb-0">Some Kind Of Blues</h5>
+                    <p class="text-white text-sm">Deftones</p>
+                    <div class="d-flex mt-4 pt-2">
+                        <button class="btn btn-outline-white rounded-circle p-2 mx-2 mb-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Play">
+                        <i class="material-icons p-2">play_arrow</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %} {% else %}
+        <div class="col-12 mt-5">
+            <h2 class="text-center">No hay videos. Agregue uno para comenzar</h2>
+        </div>
+        {% endif %}
+    </div>
+</div>
 
-{% block body %}
-    <h1>It works video!</h1>
-    <pre> {{ Data }} </pre>
-    <pre> {{ Links }} </pre>
-    <pre> {{ Offset }} </pre>
-    <pre> {{ Limit }} </pre>
-    <pre> {{ Total }} </pre>
-{% endblock body %}
+<div class="modal fade" id="videoUploadModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="/file-upload" class="form-control border dropzone" id="dropzone">
+                    <div class="fallback">
+                        <input name="file" type="file" multiple />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<pre> {{ Data }} </pre>
+<pre> {{ Links }} </pre>
+<pre> {{ Offset }} </pre>
+<pre> {{ Limit }} </pre>
+<pre> {{ Total }} </pre> {% endblock body %} {% block scripts %}
+<script src="{{url_for('static', filename = 'js/plugins/dropzone.min.js')}}"></script>
+{% endblock scripts %}
