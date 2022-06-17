@@ -1,5 +1,6 @@
-{% extends 'base.html' %} {% block styles %}
-<link href="{{url_for('static', filename = 'css/dropzone.min.css')}}?v=3.0.0" rel="stylesheet" /> {% endblock styles %} {% block body %}
+{% extends 'base.html' %}{% block styles %}
+<link href="{{url_for('static', filename = 'css/dropzone.min.css')}}?v=3.0.0" rel="stylesheet" />
+<link href="{{url_for('static', filename = 'css/views/video.css')}}?v=3.0.0" rel="stylesheet" />{% endblock styles %} {% block body %}
 <div class="container mt-5">
     <div class="row">
         <div class="col-10">
@@ -27,7 +28,7 @@
                         <button class="btn btn-outline-white rounded-circle p-2 mx-2 mb-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Play">
                         <i class="material-icons p-2">play_arrow</i>
                         </button>
-                        <button class="btn btn-outline-white rounded-circle p-2 mb-0 float-right" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Eliminar" style="color:red">
+                        <button class="btn btn-outline-white rounded-circle p-2 mb-0 float-right delete-btn" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Eliminar" onclick="deleteVideo({{ video.id }})">
                             <i class="material-icons p-2">delete</i>
                           </button>
                     </div>

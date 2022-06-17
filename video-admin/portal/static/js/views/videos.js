@@ -32,3 +32,16 @@ const videoUploadModal = document.getElementById('videoUploadModal')
 videoUploadModal.addEventListener('hidden.bs.modal', function() {
     window.location.reload()
 })
+
+const deleteVideo = (id) => {
+    console.log("Video eliminar " + id)
+    const url = `/video/${id}`
+    fetch(url, {
+            method: 'DELETE'
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json)
+            window.location.reload()
+        });
+}

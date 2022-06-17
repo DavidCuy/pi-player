@@ -1,4 +1,7 @@
+import os
+from flask import current_app
 from typing import Any, Dict, List
+from sqlalchemy.orm.session import Session
 from sqlalchemy import Column, Integer, String
 from ...Core.Data.BaseModel import BaseModel
 
@@ -29,6 +32,15 @@ class Video(BaseModel):
         return [
             "id", "video_file", "thumb_file", "description", "size", "format"
         ]
+    
+    def before_delete(self, sesion: Session, *args, **kwargs):
+        output_videopath = os.path.abspath(os.path.join(current_app.root_path, 'static/', self.video_file))
+        output_videothumb = os.path.abspath(os.path.join(current_app.root_path, 'static/', self.thumb_file))
+        
+        if os.path.exists(output_videopath):
+            os.remove(output_videopath)
+        if os.path.exists(output_videothumb):
+            os.remove(output_videothumb)
     
     @classmethod
     def rules_for_store(cls_) -> Dict[str, List[Any]]:

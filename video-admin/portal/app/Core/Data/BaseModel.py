@@ -226,17 +226,29 @@ class BaseModel(db.Model):
         session.commit()
         self.after_update(session, *args, **kwargs)
         return self
+    
+    def before_delete(self, sesion: Session, *args, **kwargs):
+        """ Method to execute before update a row in database (polimorfism)
+        """
+        pass
 
-    def delete(self, session: Session, commit=True):
+    def after_delete(self, sesion: Session, *args, **kwargs):
+        """ Method to execute after update a row in database (polimorfism)
+        """
+        pass
+
+    def delete(self, session: Session, commit=True, *args, **kwargs):
         """ Delete a specified register in database
 
         Args:
             session (Session): Database session
             commit (bool, optional): Indicate if the changes will make in database. Defaults to True.
         """
+        self.before_delete(session, *args, **kwargs)
         session.delete(self)
         if commit:
             session.commit()
+        self.after_delete(session, *args, **kwargs)
 
     @classmethod
     def eager(cls_: Type[BaseModel], session: Session, *args) -> Query:
