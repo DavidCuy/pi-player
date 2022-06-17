@@ -5,7 +5,7 @@
         <div class="col-10">
             <div class="input-group input-group-outline">
                 <label class="form-label">Buscar...</label>
-                <input type="text" class="form-control" placeholder=".">
+                <input type="text" class="form-control" placeholder="." id="searchInput">
             </div>
         </div>
         <div class="col-2">
@@ -93,4 +93,5 @@
 <pre> {{ Limit }} </pre>
 <pre> {{ Total }} </pre> {% endblock body %} {% block scripts %}
 <script src="{{url_for('static', filename = 'js/plugins/dropzone.min.js')}}"></script>
+<script src="{{url_for('static', filename = 'js/views/videos.js')}}"></script>
 {% endblock scripts %}

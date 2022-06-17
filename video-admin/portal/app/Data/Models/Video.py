@@ -20,6 +20,8 @@ class Video(BaseModel):
     
     model_path_name = "video"
     
+    search_columns = ['video_file', 'format']
+    
     def property_map(self) -> Dict:
         return { }
     
