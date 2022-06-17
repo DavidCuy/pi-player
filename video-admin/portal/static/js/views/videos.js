@@ -28,13 +28,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })
 
+const updatePlayVideo = (id) => {
+    const url = `/video/${id}`
+    fetch(url, {
+            method: 'GET'
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json)
+            const video = document.getElementById('videoPlayer');
+            let source = document.createElement('source');
+
+            source.setAttribute('src', `http://${window.location.host}/static/${json.video_file}`);
+            source.setAttribute('type', json.format);
+
+            video.appendChild(source);
+            video.load();
+            video.play();
+
+        });
+}
+
+const videoplayModal = document.getElementById('videoplayModal')
+videoplayModal.addEventListener('hidden.bs.modal', function() {
+    const video = document.getElementById('videoPlayer');
+    video.pause();
+    video.currentTime = 0
+    video.innerHTML = ''
+})
+
 const videoUploadModal = document.getElementById('videoUploadModal')
 videoUploadModal.addEventListener('hidden.bs.modal', function() {
     window.location.reload()
 })
 
+
 const deleteVideo = (id) => {
-    console.log("Video eliminar " + id)
     const url = `/video/${id}`
     fetch(url, {
             method: 'DELETE'

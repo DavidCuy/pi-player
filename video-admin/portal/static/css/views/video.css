@@ -1,3 +1,12 @@
 .delete-btn {
     color: red;
 }
+
+#videoPlayer {
+    width: 100%;
+    height: auto;
+}
+
+.modal-video .modal-body {
+    padding: 0;
+}
