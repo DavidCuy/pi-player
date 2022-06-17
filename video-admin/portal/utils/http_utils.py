@@ -73,7 +73,7 @@ def get_paginate_params(req: Request) -> Tuple[bool, int, int]:
     if per_page is not None:
         per_page = int(per_page)
     else:
-        per_page = 2
+        per_page = 10
     
     return (page, per_page)
 

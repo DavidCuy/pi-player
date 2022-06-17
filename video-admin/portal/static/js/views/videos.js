@@ -27,3 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.focus()
     }
 })
+
+const videoUploadModal = document.getElementById('videoUploadModal')
+videoUploadModal.addEventListener('hidden.bs.modal', function() {
+    window.location.reload()
+})
