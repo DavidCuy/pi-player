@@ -50,8 +50,15 @@ def index(service: BaseService):
         total_elements = cast(BaseService, service).count_with_query(query)
         
         encoder = AlchemyEncoder if 'relationships' not in relationship_retrieve else AlchemyRelationEncoder
-
-        body = PaginationResult(elements, page, per_page, total_elements, refType=cast(BaseService, service).model).to_dict()
+        
+        if 'accepts' in request.headers:
+            accepts = request.headers['accepts']
+            if accepts.lower() == 'application/json':
+                body = PaginationResult(elements, page, per_page, total_elements, refType=cast(BaseService, service).model).to_dict()
+            else:
+                body = PaginationResult(elements, page, per_page, total_elements, refType=cast(BaseService, service).model, is_json_resp=False).to_dict()
+        else:
+            body = PaginationResult(elements, page, per_page, total_elements, refType=cast(BaseService, service).model, is_json_resp=False).to_dict()
         body['Data'] = list(map(lambda d: dict(
                 **cast(BaseModel, d).to_dict(jsonEncoder=encoder, encoder_extras=relationship_retrieve)
             ), body['Data'])

@@ -14,8 +14,9 @@
             </button>
         </div>
     </div>
+    {% if Data | length > 0 %}
     <div class="row">
-        {% if Data | length > 0 %} {% for video in Data %}
+        {% for video in Data %}
         <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="card card-background card-background-mask-dark align-items-start mt-4">
                 <div class="full-background cursor-pointer" style="background-image: url('{{ url_for('static', filename = video.thumb_file) }}')"></div>
@@ -33,12 +34,40 @@
                 </div>
             </div>
         </div>
-        {% endfor %} {% else %}
+        {% endfor %}
+    </div>
+    <div style="position: relative; width: 100%">
+        <nav aria-label="Page navigation example" class="mt-4 float-end">
+            <ul class="pagination">
+                {% if 'prev' in Links %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ Links['prev']['Ref'] }}" aria-label="Previous">
+                        <span class="material-icons">
+                        keyboard_arrow_left
+                      </span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                {% endif %} {% if 'next' in Links %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ Links['next']['Ref'] }}" aria-label="Next">
+                        <span class="material-icons">
+                        keyboard_arrow_right
+                      </span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% else %}
+    <div class="row">
         <div class="col-12 mt-5">
             <h2 class="text-center">No hay videos. Agregue uno para comenzar</h2>
         </div>
-        {% endif %}
     </div>
+    {% endif %}
 </div>
 
 <div class="modal fade" id="videoUploadModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
