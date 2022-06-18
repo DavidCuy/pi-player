@@ -2,6 +2,7 @@ from typing import Any, Dict, List
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String
 from ...Core.Data.BaseModel import BaseModel
+from .ManyToMany.RelVideosPlaylist import videos_playlist_association_table
 
 class Playlist(BaseModel):
     """ Table playlists Database model
@@ -19,11 +20,12 @@ class Playlist(BaseModel):
     description = Column("description", String)
     
     schedules = relationship("Schedule", back_populates="playlist")
+    videos = relationship("Video", secondary=videos_playlist_association_table)
     
     model_path_name = "playlist"
     
     filter_columns = []
-    relationship_names = ["schedules"]
+    relationship_names = ["schedules", "videos"]
     search_columns = ["name"]
     
     def property_map(self) -> Dict:
