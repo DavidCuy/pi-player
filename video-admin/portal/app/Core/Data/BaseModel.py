@@ -307,7 +307,8 @@ class BaseModel(db.Model):
         """
         return {}
     
-    def display_members(self) -> List[str]:
+    @classmethod
+    def display_members(cls_) -> List[str]:
         """Get only de properties to display to end user
 
         Returns:

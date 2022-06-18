@@ -1,8 +1,12 @@
+import os
+from flask import current_app
 from typing import Any, Dict, List
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm.session import Session
 from ...Core.Data.BaseModel import BaseModel
 from .ManyToMany.RelVideosPlaylist import videos_playlist_association_table
+from .Video import Video
 
 class Playlist(BaseModel):
     """ Table playlists Database model
@@ -31,7 +35,8 @@ class Playlist(BaseModel):
     def property_map(self) -> Dict:
         return { }
     
-    def display_members(self) -> List[str]:
+    @classmethod
+    def display_members(cls_) -> List[str]:
         return [
             "id", "name", "description", "order_file"
         ]
@@ -39,6 +44,22 @@ class Playlist(BaseModel):
     @classmethod
     def rules_for_store(cls_) -> Dict[str, List[Any]]:
         return {
-            "name": ["required", "string"],
-            "order_file": ["required", "string"]
+            "name": ["required", "string"]
         }
+    
+    def before_save(self, sesion: Session, *args, **kwargs):
+        self.order_file = f'order_files/{self.name}.json'
+    
+    def after_save(self, sesion: Session, *args, **kwargs):
+        self.order_file = f'order_files/{self.id}.json'
+        if 'videos' in kwargs:
+            videos_ids = list(map(lambda id: int(id), kwargs['videos']))
+            videos = sesion.query(Video).filter(Video.id.in_(videos_ids)).all()
+            self.videos = videos
+        sesion.commit()
+    
+    def before_delete(self, sesion: Session, *args, **kwargs):
+        order_file = os.path.abspath(os.path.join(current_app.root_path, 'static/', self.order_file))
+        
+        if os.path.exists(order_file):
+            os.remove(order_file)

@@ -112,7 +112,7 @@ def get_relationship_params(req: Request) -> dict:
     
     ret_dict = {}
     if 'relationships' in req.args.keys():
-        ret_dict.update(dict(relationships=req.args['relationships']))
+        ret_dict.update(dict(relationships=req.args.getlist('relationships')))
     
     return ret_dict
  

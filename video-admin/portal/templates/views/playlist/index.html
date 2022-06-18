@@ -1,9 +1,10 @@
 {% extends 'base.html' %}{% block styles %}
-<link href="{{url_for('static', filename = 'css/views/playlist.css')}}" rel="stylesheet" />{% endblock styles %} {% block body %}
+<link href="{{url_for('static', filename = 'css/views/playlist.css')}}" rel="stylesheet" />
+<link href="{{url_for('static', filename = 'css/slimselect.min.css')}}" rel="stylesheet" />{% endblock styles %} {% block body %}
 <div class="container mt-5">
     <div class="row">
         <div class="col-12">
-            <button class="btn btn-icon btn-2 btn-primary float-end float-right" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
+            <button class="btn btn-icon btn-2 btn-primary float-end float-right" type="button" data-bs-toggle="modal" data-bs-target="#newPlaylistModal">
                 <span class="btn-inner--icon"><i class="material-icons">file_upload</i> Agregar playlist</span>
             </button>
         </div>
@@ -11,7 +12,45 @@
     {% if Data | length > 0 %}
     <div class="row">
         {% for playlist in Data %}
-        <div>asdasdas</div>
+        <div class="col-12 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="title-inline">
+                        <h4>{{ playlist.name }}</h4>
+                        <button class="btn btn-icon btn-2 btn-success btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
+                                <span class="btn-inner--icon"><i class="material-icons">list</i></span>
+                        </button>
+                        <div class="float-end float-right">
+                            <button class="btn btn-icon btn-2 btn-warning btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
+                                <span class="btn-inner--icon"><i class="material-icons">edit</i></span>
+                            </button>
+                            <button class="btn btn-icon btn-2 btn-danger btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
+                                <span class="btn-inner--icon"><i class="material-icons">delete</i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <span>{{ playlist.description }}</span>
+                </div>
+                <div class="card-body">
+                    <div class="scroll-box">
+                        {% if 'videos' in playlist%} {% for video in playlist.videos %}
+                        <div class="card card-background card-background-mask-dark align-items-start mt-4">
+                            <div class="full-background cursor-pointer" style="background-image: url('{{ url_for('static', filename = video.thumb_file) }}')"></div>
+                            <div class="card-body">
+                                <h5 class="text-white mb-0">{{ video.video_file.split('/')[-1] }}</h5>
+                                <p class="text-white text-sm">{{ '%0.2f'| format(video.size / 1000000|float) }} MB</p>
+                                <div class="d-flex mt-4 pt-2">
+                                    <button class="btn btn-outline-white rounded-circle p-2 mx-2 mb-0" typ="button" data-bs-toggle="modal" data-bs-target="#videoplayModal" onclick="updatePlayVideo({{ video.id }})">
+                                    <i class="material-icons p-2">play_arrow</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %} {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endfor %}
     </div>
     {% else %}
@@ -20,145 +59,67 @@
             <h2 class="text-center">No hay playlists. Agregue uno para comenzar</h2>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <div class="title-inline">
-                        <h4>Playlist 1</h4>
-                        <button class="btn btn-icon btn-2 btn-success btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">list</i></span>
-                        </button>
-                        <div class="float-end float-right">
-                            <button class="btn btn-icon btn-2 btn-warning btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">edit</i></span>
-                            </button>
-                            <button class="btn btn-icon btn-2 btn-danger btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">delete</i></span>
-                            </button>
-                        </div>
-                    </div>
-                    <span>Descripción pequeña y grisacea</span>
-                </div>
-                <div class="card-body">
-                    <div class="scroll-box">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <div class="title-inline">
-                        <h4>Playlist 1</h4>
-                        <button class="btn btn-icon btn-2 btn-success btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">list</i></span>
-                        </button>
-                        <div class="float-end float-right">
-                            <button class="btn btn-icon btn-2 btn-warning btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">edit</i></span>
-                            </button>
-                            <button class="btn btn-icon btn-2 btn-danger btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">delete</i></span>
-                            </button>
-                        </div>
-                    </div>
-                    <span>Descripción pequeña y grisacea</span>
-                </div>
-                <div class="card-body">
-                    <div class="scroll-box">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <div class="title-inline">
-                        <h4>Playlist 1</h4>
-                        <button class="btn btn-icon btn-2 btn-success btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">list</i></span>
-                        </button>
-                        <div class="float-end float-right">
-                            <button class="btn btn-icon btn-2 btn-warning btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">edit</i></span>
-                            </button>
-                            <button class="btn btn-icon btn-2 btn-danger btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">delete</i></span>
-                            </button>
-                        </div>
-                    </div>
-                    <span>Descripción pequeña y grisacea</span>
-                </div>
-                <div class="card-body">
-                    <div class="scroll-box">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <div class="title-inline">
-                        <h4>Playlist 1</h4>
-                        <button class="btn btn-icon btn-2 btn-success btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">list</i></span>
-                        </button>
-                        <div class="float-end float-right">
-                            <button class="btn btn-icon btn-2 btn-warning btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">edit</i></span>
-                            </button>
-                            <button class="btn btn-icon btn-2 btn-danger btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
-                                <span class="btn-inner--icon"><i class="material-icons">delete</i></span>
-                            </button>
-                        </div>
-                    </div>
-                    <span>Descripción pequeña y grisacea</span>
-                </div>
-                <div class="card-body">
-                    <div class="scroll-box">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                        <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     {% endif %}
 </div>
 
-<h1>It works playlist!</h1>
-<p>
-    <pre> {{ Data }} </pre>
-    <pre> {{ Links }} </pre>
-    <pre> {{ Offset }} </pre>
-    <pre> {{ Limit }} </pre>
-    <pre> {{ Total }} </pre>
-</p>
-{% endblock body %} {% block scripts %} {% endblock scripts %}
+<div class="modal fade" id="newPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="newPlaylistModalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="/playlist" method="POST" onsubmit="createPlaylist(event, this)">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-normal" id="scheduleModalLabel">Nuevo Playlist</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group input-group-outline my-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="description" class="form-control-label">Descripción</label>
+                                <textarea class="form-control" rows="5" placeholder="Agrega una descripcion breve de qué trata la playlist" spellcheck="false" name="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="description" class="form-control-label">Videos</label>
+                                <select id="newPlaylistVideosSelect" name="videos" multiple>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn bg-gradient-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="videoplayModal" tabindex="-1" role="dialog" aria-labelledby="videoplayModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-video" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <video id="videoPlayer"></video>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %} {% block scripts %}
+<script src="{{url_for('static', filename = 'js/plugins/slimselect.min.js')}}"></script>
+<script src="{{url_for('static', filename = 'js/views/playlist.js')}}"></script>
+{% endblock scripts %}

@@ -19,12 +19,21 @@
     border-radius: 5px;
 }
 
-.scroll-box img {
-    height: 160px;
-    object-fit: cover;
+.scroll-box .card {
     margin-right: 20px;
+    width: 280px;
+    display: inline-block;
 }
 
 .title-inline h4 {
     display: inline;
+}
+
+#videoPlayer {
+    width: 100%;
+    height: auto;
+}
+
+.modal-video .modal-body {
+    padding: 0;
 }
