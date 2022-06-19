@@ -40,11 +40,27 @@
 
 .drag-container {
     width: 100%;
-    background-color: #AAA;
+    background-color: #DDD;
     border-radius: 10px;
     min-height: 120px;
+    max-height: 500px;
     padding: 7px;
     padding-bottom: 2px;
+    overflow-y: scroll;
+}
+
+.drag-container::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.drag-container::-webkit-scrollbar-track {
+    visibility: hidden;
+}
+
+.drag-container::-webkit-scrollbar-thumb {
+    background-color: #AAA;
+    border-radius: 5px;
 }
 
 .drag-container .card {

@@ -42,7 +42,6 @@ const createPlaylist = (event, form) => {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.warn(data)
             debugger
             window.location.reload()
         });
@@ -55,7 +54,6 @@ const updatePlayVideo = (id) => {
         })
         .then((response) => response.json())
         .then((json) => {
-            console.log(json)
             const video = document.getElementById('videoPlayer');
             let source = document.createElement('source');
 
@@ -84,7 +82,6 @@ const deletePlaylist = (id) => {
         })
         .then((response) => response.json())
         .then((json) => {
-            console.log(json)
             window.location.reload()
         });
 }
@@ -92,8 +89,6 @@ const deletePlaylist = (id) => {
 let orderList = null
 
 const drawOrderCard = (item, position) => {
-    console.log(orderList)
-
     const addIcon = document.createElement("i")
     addIcon.className = "material-icons"
     addIcon.innerHTML = "add"
@@ -113,10 +108,12 @@ const drawOrderCard = (item, position) => {
 
     const inputId = document.createElement("input")
     inputId.setAttribute("type", "hidden")
+    inputId.setAttribute("name", "id")
     inputId.setAttribute("value", item.id)
 
     const inputPosition = document.createElement("input")
     inputPosition.setAttribute("type", "hidden")
+    inputPosition.setAttribute("name", "position")
     inputPosition.setAttribute("value", position)
 
     const card = document.createElement("div")
@@ -187,12 +184,24 @@ const openOrderModal = (idPlaylist) => {
         })
 }
 dragula([orderContainer])
-    .on('drag', function(el) {
-        el.className = el.className.replace('ex-moved', '');
-    }).on('drop', function(el) {
-        el.className += ' ex-moved';
-    }).on('over', function(el, container) {
-        container.className += ' ex-over';
-    }).on('out', function(el, container) {
-        container.className = container.className.replace('ex-over', '');
+    .on('drop', function(el) {
+        const idElement = el.querySelector("input[name='id']")
+        const video = orderList.find(e => e.id == idElement.value)
+
+        let counter = 1
+        let backup_orderList = []
+        for (let ch of orderContainer.children) {
+            const positionElement = ch.querySelector("input[name='position']")
+            const idElement = ch.querySelector("input[name='id']")
+
+            const video = orderList.find(e => e.id == idElement.value)
+            backup_orderList.push(video)
+            positionElement.setAttribute("value", counter++)
+        }
+        orderList = JSON.parse(JSON.stringify(backup_orderList))
     });
+
+const saveOrderFile = () => {
+    console.log(orderList)
+    console.warn("Mandando a llamar endpoint para guardar lista y recargar")
+}
