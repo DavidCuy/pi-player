@@ -87,6 +87,7 @@ const deletePlaylist = (id) => {
 }
 
 let orderList = null
+let playlistId = null
 
 const drawOrderCard = (item, position) => {
     const addIcon = document.createElement("i")
@@ -168,6 +169,7 @@ const removeOrderItem = (index) => {
 
 const openOrderModal = (idPlaylist) => {
     const playlist = Playlists.find(p => p.id == idPlaylist)
+    playlistId = idPlaylist
     if (playlist === null || playlist === undefined) {
         alert("Ocurrio un error al buscar playlist")
         return
@@ -202,6 +204,19 @@ dragula([orderContainer])
     });
 
 const saveOrderFile = () => {
-    console.log(orderList)
-    console.warn("Mandando a llamar endpoint para guardar lista y recargar")
+    const url = `/playlist/${playlistId}/order-file`
+    fetch(url, {
+            method: 'POST',
+            headers: {
+                'accepts': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderList)
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data)
+            debugger
+            window.location.reload()
+        });
 }
