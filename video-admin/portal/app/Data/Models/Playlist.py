@@ -1,9 +1,12 @@
+import json
 import os
 from flask import current_app
 from typing import Any, Dict, List
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm.session import Session
+
+from portal.database.DBConnection import AlchemyEncoder
 from ...Core.Data.BaseModel import BaseModel
 from .ManyToMany.RelVideosPlaylist import videos_playlist_association_table
 from .Video import Video
@@ -57,6 +60,10 @@ class Playlist(BaseModel):
             videos = sesion.query(Video).filter(Video.id.in_(videos_ids)).all()
             self.videos = videos
         sesion.commit()
+        
+        order_path = os.path.abspath(os.path.join(current_app.root_path, 'static/', self.order_file))
+        with open(order_path, 'w') as ofile:
+            ofile.write(json.dumps(self.videos, cls=AlchemyEncoder))
     
     def before_delete(self, sesion: Session, *args, **kwargs):
         order_file = os.path.abspath(os.path.join(current_app.root_path, 'static/', self.order_file))

@@ -155,3 +155,4 @@ portal/storage/local/*
 portal/app.db
 portal/static/*/*.mp4
 portal/static/*/*.png
+portal/static/order_files/*.json
