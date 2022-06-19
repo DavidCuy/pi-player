@@ -17,7 +17,7 @@
                 <div class="card-header">
                     <div class="title-inline">
                         <h4>{{ playlist.name }}</h4>
-                        <button class="btn btn-icon btn-2 btn-success btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
+                        <button class="btn btn-icon btn-2 btn-success btn-icon-only rounded-circle" type="button" data-bs-toggle="modal" data-bs-target="#orderModal" onclick="openOrderModal({{playlist.id}})">
                                 <span class="btn-inner--icon"><i class="material-icons">list</i></span>
                         </button>
                         <div class="float-end float-right">
@@ -64,7 +64,7 @@
         <div class="modal-content">
             <form action="/playlist" method="POST" onsubmit="createPlaylist(event, this)">
                 <div class="modal-header">
-                    <h5 class="modal-title font-weight-normal" id="scheduleModalLabel">Nuevo Playlist</h5>
+                    <h5 class="modal-title font-weight-normal">Nuevo Playlist</h5>
                     <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -116,7 +116,37 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-normal">Orden de reproducción</h5>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 wrapper">
+                        <div id="orderContainer" class="drag-container container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn bg-gradient-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock body %} {% block scripts %}
+<script>
+    let Playlists = JSON.parse('{{ Data|tojson }}')
+</script>
 <script src="{{url_for('static', filename = 'js/plugins/slimselect.min.js')}}"></script>
+<script src="{{url_for('static', filename = 'js/plugins/dragula.min.js')}}"></script>
 <script src="{{url_for('static', filename = 'js/views/playlist.js')}}"></script>
 {% endblock scripts %}

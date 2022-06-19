@@ -37,3 +37,63 @@
 .modal-video .modal-body {
     padding: 0;
 }
+
+.drag-container {
+    width: 100%;
+    background-color: #AAA;
+    border-radius: 10px;
+    min-height: 120px;
+    padding: 7px;
+    padding-bottom: 2px;
+}
+
+.drag-container .card {
+    width: 100%;
+    border-radius: 5px;
+    padding: 7px;
+    margin-bottom: 10px;
+    display: flow-root;
+    font-size: x-large;
+    cursor: move;
+    /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.drag-container .card:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.drag-container .card button {
+    margin: 0;
+    margin-right: 5px;
+}
+
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+}
+
+.gu-hide {
+    display: none !important;
+}
+
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+.gu-transit {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
+}

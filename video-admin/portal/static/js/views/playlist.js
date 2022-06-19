@@ -1,4 +1,5 @@
 const newPlaylistVideosSelect = document.getElementById("newPlaylistVideosSelect")
+const orderContainer = document.getElementById('orderContainer')
 
 document.addEventListener('DOMContentLoaded', () => {
     const url = `/video/?per_page=100`
@@ -87,3 +88,111 @@ const deletePlaylist = (id) => {
             window.location.reload()
         });
 }
+
+let orderList = null
+
+const drawOrderCard = (item, position) => {
+    console.log(orderList)
+
+    const addIcon = document.createElement("i")
+    addIcon.className = "material-icons"
+    addIcon.innerHTML = "add"
+
+    const spanAddIcon = document.createElement("span")
+    spanAddIcon.className = "btn-inner--icon"
+    spanAddIcon.appendChild(addIcon)
+
+    const addBtn = document.createElement("button")
+    addBtn.className = "btn btn-icon btn-2 btn-success btn-icon-only rounded-circle float-end float-right"
+    addBtn.setAttribute("type", "button")
+    addBtn.setAttribute("onclick", `addOrderItem(${position}, ${JSON.stringify(item)})`)
+    addBtn.appendChild(spanAddIcon)
+
+    const spanName = document.createElement("span")
+    spanName.innerHTML = item.video_file.split('/').slice(-1)[0]
+
+    const inputId = document.createElement("input")
+    inputId.setAttribute("type", "hidden")
+    inputId.setAttribute("value", item.id)
+
+    const inputPosition = document.createElement("input")
+    inputPosition.setAttribute("type", "hidden")
+    inputPosition.setAttribute("value", position)
+
+    const card = document.createElement("div")
+    card.className = "card"
+    card.appendChild(inputId)
+    card.appendChild(inputPosition)
+    card.appendChild(spanName)
+    card.appendChild(addBtn)
+
+    // Comprobacion de unico
+    const videos = orderList.filter(v => v.id == item.id)
+    if (videos.length > 1) {
+        const deleteIcon = addIcon.cloneNode()
+        deleteIcon.innerHTML = 'delete'
+        const spanDeleteIcon = spanAddIcon.cloneNode()
+        spanDeleteIcon.innerHTML = ''
+        spanDeleteIcon.appendChild(deleteIcon)
+        const deleteBtn = document.createElement("button")
+        deleteBtn.className = "btn btn-icon btn-2 btn-danger btn-icon-only rounded-circle float-end float-right"
+        deleteBtn.setAttribute("type", "button")
+        deleteBtn.setAttribute("onclick", `removeOrderItem(${position - 1})`)
+        deleteBtn.appendChild(spanDeleteIcon)
+
+        card.appendChild(deleteBtn)
+    }
+
+    orderContainer.appendChild(card)
+
+}
+
+const addOrderItem = (index, video) => {
+    if (index > -1) {
+        orderList.splice(index, 0, video); // 2nd parameter means remove one item only
+    }
+    orderContainer.innerHTML = ''
+    let counter = 1
+    orderList.forEach(element => {
+        drawOrderCard(element, counter++)
+    })
+}
+
+const removeOrderItem = (index) => {
+    if (index > -1) {
+        orderList.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    orderContainer.innerHTML = ''
+    let counter = 1
+    orderList.forEach(element => {
+        drawOrderCard(element, counter++)
+    })
+}
+
+const openOrderModal = (idPlaylist) => {
+    const playlist = Playlists.find(p => p.id == idPlaylist)
+    if (playlist === null || playlist === undefined) {
+        alert("Ocurrio un error al buscar playlist")
+        return
+    }
+    fetch(`/static/${playlist.order_file}`)
+        .then((response) => response.json())
+        .then((data) => {
+            orderList = data
+            let index = 1;
+            orderContainer.innerHTML = ''
+            orderList.forEach(element => {
+                drawOrderCard(element, index++)
+            })
+        })
+}
+dragula([orderContainer])
+    .on('drag', function(el) {
+        el.className = el.className.replace('ex-moved', '');
+    }).on('drop', function(el) {
+        el.className += ' ex-moved';
+    }).on('over', function(el, container) {
+        container.className += ' ex-over';
+    }).on('out', function(el, container) {
+        container.className = container.className.replace('ex-over', '');
+    });
