@@ -75,3 +75,15 @@ videoplayModal.addEventListener('hidden.bs.modal', function() {
     video.currentTime = 0
     video.innerHTML = ''
 })
+
+const deletePlaylist = (id) => {
+    const url = `/playlist/${id}`
+    fetch(url, {
+            method: 'DELETE'
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json)
+            window.location.reload()
+        });
+}
