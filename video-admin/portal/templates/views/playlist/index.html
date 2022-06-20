@@ -50,6 +50,32 @@
         </div>
         {% endfor %}
     </div>
+
+    <div class="pagination-section">
+        <nav aria-label="Page navigation example" class="mt-4 float-end">
+            <ul class="pagination">
+                {% if 'prev' in Links %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ Links['prev']['Ref'] }}&relationships=videos" aria-label="Previous">
+                        <span class="material-icons">
+                        keyboard_arrow_left
+                      </span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                {% endif %} {% if 'next' in Links %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ Links['next']['Ref'] }}&relationships=videos" aria-label="Next">
+                        <span class="material-icons">
+                        keyboard_arrow_right
+                      </span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
     {% else %}
     <div class="row">
         <div class="col-12 mt-5">

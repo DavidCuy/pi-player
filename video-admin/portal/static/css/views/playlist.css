@@ -113,3 +113,9 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
     filter: alpha(opacity=20);
 }
+
+.pagination-section {
+    position: relative;
+    width: 100%;
+    display: flow-root;
+}
