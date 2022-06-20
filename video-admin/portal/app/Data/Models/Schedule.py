@@ -1,7 +1,7 @@
 from email.policy import default
 from typing import Any, Dict, List
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, Time, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Time, Date, Boolean, ForeignKey
 from ...Core.Data.BaseModel import BaseModel
 
 class Schedule(BaseModel):
@@ -20,6 +20,7 @@ class Schedule(BaseModel):
     color = Column("color", String, default="#CCCCCC")
     start = Column("start", Time, nullable=False)
     end = Column("end", Time, nullable=False)
+    repeat = Column("repeat", Boolean, default=False)
     date = Column("date", Date)
     days = Column("days", String)
     
