@@ -6,43 +6,83 @@
             <button type="button" class="btn btn-primary float-right" style="float: right" data-bs-toggle="modal" data-bs-target="#scheduleModal">Nuevo horario</button>
         </div>
     </div>
-    <div class="row">
-        {% if Data | length > 0 %} {% for schedule in Data %}
+    {% if Data | length > 0 %}
+    <div class="row shedules-container">
+        {% for schedule in Data %}
         <div class="col-lg-4 col-md-3 col-sm-6">
             <div class="card card-frame">
-                <div class="card-header colored-header"></div>
+                <div class="card-header colored-header" style="background-color: {{schedule.color}};"></div>
                 <div class="card-body">
+                    <div class="float-end float-right">
+                        <button class="btn btn-icon btn-2 btn-danger btn-icon-only rounded-circle" type="button" onclick="deleteSchedule({{ schedule.id }})">
+                            <span class="btn-inner--icon"><i class="material-icons">delete</i></span>
+                        </button>
+                    </div>
                     <h3>{{ schedule.name }}</h3>
 
                     <div class="row mt-3">
                         <div class="col-md-6 col-sm-12">
+                            <span><b>Inicio</b></span><br>
                             <span>{{ schedule.start }}</span>
                         </div>
                         <div class="col-md-6 col-sm-12">
+                            <span><b>Fin</b></span><br>
                             <span>{{ schedule.end }}</span>
                         </div>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
-                <div class="card-footer d-flex">
-                    <a href="#">
-                        <span class="badge bg-gradient-secondary">{{ schedule.playlist }}</span>
-                    </a>
+                <div class="card-footer">
+                    <div><b>Playlist</b></div>
+                    <div class="d-flex">
+                        <a href="javascript:void(0)">
+                            <span class="badge bg-gradient-secondary">{{ schedule.playlist.name }}</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-        {% endfor %} {% else %}
+        {% endfor %}
+        <div class="pagination-section">
+            <nav aria-label="Page navigation example" class="mt-4 float-end">
+                <ul class="pagination">
+                    {% if 'prev' in Links %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ Links['prev']['Ref'] }}&relationships=playlist&relationships=videos" aria-label="Previous">
+                            <span class="material-icons">
+                            keyboard_arrow_left
+                          </span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    {% endif %} {% if 'next' in Links %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ Links['next']['Ref'] }}&relationships=playlist&relationships=videos" aria-label="Next">
+                            <span class="material-icons">
+                            keyboard_arrow_right
+                          </span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
         <div class="col-12 mt-5">
             <h2 class="text-center">No hay horarios configurados. Agregue uno para comenzar</h2>
         </div>
-        {% endif %}
     </div>
+    {% endif %}
+</div>
 </div>
 
 <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="/playlist" method="POST" onsubmit="createSchedule(event, this)">
+            <form action="/schedule" method="POST" onsubmit="createSchedule(event, this)">
                 <div class="modal-header">
                     <h5 class="modal-title font-weight-normal" id="scheduleModalLabel">Horario</h5>
                     <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
@@ -55,6 +95,16 @@
                             <div class="input-group input-group-outline my-3">
                                 <label class="form-label">Nombre</label>
                                 <input type="text" class="form-control" name="name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group input-group-static mb-4">
+                                <label for="newPlaylistSelect" class="ms-0">Seleccione una playlist</label>
+                                <select class="form-control" id="newPlaylistSelect" name="id_playlist">
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -137,10 +187,6 @@
     </div>
 </div>
 
-<pre> {{ Data }} </pre>
-<pre> {{ Links }} </pre>
-<pre> {{ Offset }} </pre>
-<pre> {{ Limit }} </pre>
-<pre> {{ Total }} </pre> {% endblock body %} {% block scripts %}
+{% endblock body %} {% block scripts %}
 <script src="{{url_for('static', filename = 'js/views/schedule.js')}}"></script>
 {% endblock scripts %}

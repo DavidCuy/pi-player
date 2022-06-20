@@ -40,7 +40,7 @@ class AlchemyEncoder(json.JSONEncoder):
             for field in [x for x in obj.attrs]:
                 data = obj.__getattribute__(field)
                 try:
-                    if isinstance(data, (datetime.datetime, datetime.date)):
+                    if isinstance(data, (datetime.datetime, datetime.date, datetime.time)):
                         data = data.isoformat()
                     else:
                         json.dumps(data)
@@ -79,7 +79,7 @@ class AlchemyRelationEncoder(json.JSONEncoder):
             for field in attributes:
                 data = obj.__getattribute__(field)
                 try:
-                    if isinstance(data, (datetime.datetime, datetime.date)):
+                    if isinstance(data, (datetime.datetime, datetime.date, datetime.time)):
                         data = data.isoformat()
                     else:
                         json.dumps(data, cls=self.__class__, check_circular=self.check_circular, relationships=self.relationships)
