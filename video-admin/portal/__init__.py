@@ -50,6 +50,6 @@ def create_app():
     
     @app.route('/', methods=['GET'])
     def index() -> Response:
-        return redirect('/schedule')
+        return redirect('/schedule/?page=1&per_page=10&relationships=playlist&relationships=videos')
 
     return app
