@@ -14,6 +14,17 @@ const update_url = () => {
     window.history.pushState({ path: newurl }, '', newurl)
 }
 
+const draw_source_video = (video_url, format = 'vide/mp4') => {
+    videoPlayer.innerHTML = ''
+    const source = document.createElement('source')
+    source.setAttribute('src', video_url)
+    source.setAttribute('type', format)
+
+    videoPlayer.appendChild(source)
+    videoPlayer.load()
+    videoPlayer.play()
+}
+
 const fetchVideo = () => {
     const qParams = new URLSearchParams({
         current_datetime: formatDatetime(new Date()),
@@ -32,14 +43,11 @@ const fetchVideo = () => {
             video_order = dataVideo.order
             video_source = `http://localhost:5000/static/${dataVideo.video_file}`
 
-            videoPlayer.innerHTML = ''
-            const source = document.createElement('source')
-            source.setAttribute('src', video_source)
-            source.setAttribute('type', dataVideo.format)
-
-            videoPlayer.appendChild(source)
-            videoPlayer.load()
-            videoPlayer.play()
+            draw_source_video(video_source, dataVideo.format)
+        }).catch((err) => {
+            console.error(err)
+            video_source = `http://localhost/unavailable.mp4`
+            draw_source_video(video_source)
         })
 }
 
