@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  web-player:
+    image: web-player
+    container_name: web-player
+    depends_on: 
+      - video-admin
+    build:
+      context: ./web-player
+      dockerfile: ./Dockerfile.dev
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+  video-admin:
+    image: video-admin
+    container_name: video-admin
+    environment:
+      FLASK_APP: portal
+      FLASK_ENV: development
+      PYTHONUNBUFFERED: 1
+    env_file: './video-admin/.env'
+    build:
+      context: ./video-admin
+      dockerfile: ./Dockerfile.dev
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
